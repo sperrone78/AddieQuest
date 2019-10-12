@@ -48,15 +48,16 @@ def run_game(game):
         print('Choose Wisely:')
         current_option = input()
 
-        # Commands = {
-        #     'quit': player.quit,
-        #     'help': player.help,
-        #     'status': player.status,
-        #     'rest': player.rest,
-        #     'explore': player.explore,
-        #     'flee': player.flee,
-        #     'attack': player.attack,
-        # }
+        commands = {
+             'quit': "game.quit",
+             'help': "game.help",
+             'status': "player.status",
+             'attack': "player.attack",
+             'shop': "player.shop"
+        }
+
+        if current_option in commands.keys():
+            print(f'I found your command! {current_option} and now I will {commands[current_option]}')
 
         if current_option == "1":
             # Need to create a JSON file with stuff the shop keeper sells and load it
