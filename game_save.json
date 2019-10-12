@@ -1,1 +1,1 @@
-{"player": {"name": "Gavin", "backpack": {"max_slots": 20, "filled_slots": 1, "items_inside": ["apple"]}}, "shop_keeper": {"name": "Bob", "npc_type": "Shop Keeper"}}
+{"player": {"name": "Shawn", "backpack": {"max_slots": 20, "filled_slots": 1, "items_inside": ["apple"]}}, "shop_keeper": {"name": "Perrone", "npc_type": "Shop Keeper"}}

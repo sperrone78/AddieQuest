@@ -25,3 +25,6 @@ class Game:
 
     def reprJSON(self):
         return dict(player=self.player, shop_keeper=self.shop_keeper)
+
+    def quit(self):
+        exit()

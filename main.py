@@ -34,42 +34,43 @@ def load_game():
 
 def run_game(game):
     player = game.player
-    player.talk()
+    #player.talk()
     backpack = player.backpack
     print(f'Backpack Contents = {backpack.items_inside}')
 
     while True:
-        print('''What do you want to do?
-              1 - Check out the Shop?
-              2 - Backpack Inventory
-              3 - Character Sheet
-              4 - Save Game
-              5 - Quit''')
-        print('Choose Wisely:')
+        print("What do you want to do? (type 'help' for a list of commands): ")
         current_option = input()
 
-        commands = {
-             'quit': "game.quit",
-             'help': "game.help",
-             'status': "player.status",
-             'attack': "player.attack",
-             'shop': "player.shop"
-        }
+        # commands = {
+        #     'quit': game.quit,
+        #     'help': "game.help",
+        #     'status': "player.status",
+        #     'backpack': backpack.show_contents(),
+        #     'attack': "player.attack",
+        #     'shop': "player.shop",
+        #     'print': print(f'hello world'),
+        #     'save': save_game(game)
+        # }
 
-        if current_option in commands.keys():
-            print(f'I found your command! {current_option} and now I will {commands[current_option]}')
+        # print(f'command given = {current_option} which should run {commands[current_option]}')
+        # if current_option in commands.keys():
+        #     print(f'I found your command! {current_option} and now I will {commands[current_option]}')
+        #     commands[current_option]
 
-        if current_option == "1":
+        if current_option == ("1" or 'shop'):
             # Need to create a JSON file with stuff the shop keeper sells and load it
             print("Looking at the shop")
-        elif current_option == '2':
+        elif current_option == ('2' or 'backpack'):
             print(f'{backpack}')
             # need to create a backpack tostring
-        elif current_option == '3':
+        elif current_option == ('3' or 'status'):
             print(f"{player}")
             # need to create a player tostring
-        elif current_option == '4':
+        elif current_option == ('4' or 'save'):
             save_game(game)
+        elif current_option == 'help':
+            print("Command options: save, quit, shop, status, backpack")
         else:
             break
 

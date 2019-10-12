@@ -18,3 +18,7 @@ class Backpack:
         Backpack Space: {self.filled_slots} / {self.max_slots}
         Backpack Items: {self.items_inside}''')
         return return_str
+
+    def show_contents(self):
+        print(f'{self}')
+
