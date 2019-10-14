@@ -1,0 +1,5 @@
+{"armors": [{"armor_type": "Chain", "name": "Mithril Chain", "quality": "Perfect", "soak": 10, "weight": 1, "equipment_slot": "Chest", "cost": 100},
+  {"armor_type": "Leather", "name": "Bambi Skin", "quality": "Low", "soak": 1, "weight": 1, "equipment_slot": "Chest", "cost": 1},
+  {"armor_type": "Leather", "name": "Bambi Shield", "quality": "Low", "soak": 1, "weight": 1, "equipment_slot": "Shield", "cost": 10},
+  {"armor_type": "Steel", "name": "Steel Shield", "quality": "Low", "soak": 5, "weight": 3, "equipment_slot": "Shield", "cost": 20}]
+}

@@ -1,0 +1,5 @@
+{"weapons": [{"weapon_type": "short sword", "name": "Sting", "quality": "Perfect", "damage": 10, "weight": 1, "two_handed": false, "cost": 100},
+  {"weapon_type": "hammer", "name": "Meumue", "quality": "Perfect", "damage": 20, "weight": 10, "two_handed": false, "cost": 1000},
+  {"weapon_type": "axe", "name": "Wood Axe", "quality": "Rusty", "damage": 1, "weight": 2, "two_handed": false, "cost": 1},
+  {"weapon_type": "mace", "name": "Windu", "quality": "Master", "damage": 7, "weight": 3, "two_handed": true, "cost": 10}]
+}
