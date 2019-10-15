@@ -1,0 +1,8 @@
+{"globe": [{"name": "Home", "location_type": "home"},
+  {"name": "General Store", "location_type": "shop"},
+  {"name": "Armory", "location_type": "shop"},
+  {"name": "Weapon Blacksmith", "location_type": "shop"},
+  {"name": "Forest", "location_type": "dangerous"},
+  {"name": "Dungeon", "location_type": "dangerous"}
+]
+}
