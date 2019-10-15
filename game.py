@@ -6,13 +6,17 @@ from shop import Shop
 class Game:
     def __init__(self, player=None, shops=None, globe=None):
         print(f'Welcome to the game!')
-        if player is None: # New Game
+        if player is None:
             self.create_player()
-            self.create_globe()
-            self.create_shops()
-        else: # Loaded Game
+        else:
             self.player = player
+        if globe is None:
+            self.create_globe()
+        else:
             self.globe = globe
+        if shops is None:
+            self.create_shops()
+        else:
             self.shops = shops
 
     def create_player(self):
@@ -34,14 +38,20 @@ class Game:
         while True:
             print('Where do you want to move to? (Type "locations" for a list of options)')
             new_location = input()
-            if new_location in self.globe.locations:
-                self.player.current_location = new_location
-                print(f'{self.player.name} moves to {new_location}')
-                break
-            elif new_location == "locations":
-                print(f"You can travel to: {self.globe.locations}")
+            if new_location == "locations":
+                for loc in self.globe.locations.values():
+                    print(f"You can travel to: {loc.name}")
             else:
-                print(f"{new_location} is not a valid location to move to!")
+                coordinate = 0
+                for loc in self.globe.locations.values():
+                    # print(f'checking {loc.name} against {new_location}')
+                    if loc.name == new_location:
+                        self.player.current_coordinate = coordinate
+                        print(f'{self.player.name} moves to {new_location} (coordinate: {coordinate})')
+                        break
+                    else:
+                        # print(f"{new_location} is not a valid location to move to!")
+                        coordinate += 1
 
     def reprJSON(self):
         return dict(player=self.player, shops=self.shops, globe=self.globe)
