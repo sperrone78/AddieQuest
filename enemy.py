@@ -30,21 +30,7 @@ class Enemy:
         Location = {self.coordinate}''')
         return return_str
 
-def fight(game):
-    print("I'm in the fight module")
-    shrek = Ogre("Shrek", 100, 100, 0, 0, 100, 10, "Ogres are like onions...")
-    print(shrek)
-    shrek.talk()
-    dragon = Enemy("Smaug", 1000, 1000, 100, 100, 1000, 100, "Stay out of his mountain.")
-    print(dragon)
-    dragon.talk()
-
-    player = game.player
-    while True:
-        print("Combat Round!")
-        player_ran = random.randint(1,10)
-        enemy_ran = random.randint(1,10)
-
-        # maybe a float between .5 and 1.5?
-        player_damage = shrek.damage + enemy_ran
-
+    def reprJSON(self):
+        return dict(name=self.name, current_health=self.current_health, max_health=self.max_health,
+                    current_mana=self.current_mana, max_mana=self.max_mana, description=self.description,
+                    coordinate=self.coordinate, damage=self.damage, armor=self.armor)

@@ -18,21 +18,21 @@ class Shop:
     def load_inventory(self):
         print("Loading Store...")
         if self.shop_type == "Weapon":
-            with open("./weapon.JSON", "r") as file:
+            with open("./res/weapon.JSON", "r") as file:
                 data = json.load(file)
             for weapon in data['weapons']:
                 self.items_for_sale.append(Weapon(weapon['weapon_type'], weapon['name'], weapon['quality'],
                                                   weapon['damage'], weapon['weight'], weapon['two_handed'],
                                                   weapon['cost']))
         elif self.shop_type == "Armor":
-            with open("./armor.JSON", "r") as file:
+            with open("./res/armor.JSON", "r") as file:
                 data = json.load(file)
             for armor in data['armors']:
                 self.items_for_sale.append(Armor(armor['armor_type'], armor['name'], armor['quality'],
                                                  armor['soak'], armor['weight'], armor['equipment_slot'],
                                                  armor['cost']))
         elif self.shop_type == "General":
-            with open("./item.JSON", "r") as file:
+            with open("./res/item.JSON", "r") as file:
                 data = json.load(file)
             for item in data['items']:
                 self.items_for_sale.append(Item(item['name'], item['weight'], item['cost']))

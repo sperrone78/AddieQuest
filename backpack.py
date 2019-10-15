@@ -19,6 +19,4 @@ class Backpack:
         Backpack Items: {self.items_inside}''')
         return return_str
 
-    def show_contents(self):
-        print(f'{self}')
 

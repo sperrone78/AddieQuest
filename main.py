@@ -1,93 +1,136 @@
 import json
+import random
 from player import Player
 from npc import NPC
-from weapon import Weapon
-from armor import Armor
+# from weapon import Weapon
+# from armor import Armor
 from game import Game
 from backpack import Backpack
 from globe import Globe
 from shop import Shop
+from location import Location
+from enemy import Enemy
+from ogre import Ogre
 
 
 def save_game(game):
     game_JSON_dump = json.dumps(game.reprJSON(), cls=ComplexEncoder)
 
-    with open("./game_save.json", "w") as file:
+    with open("./res/game_save.json", "w") as file:
         file.write(game_JSON_dump)
         file.close()
 
 
-def create_equip():
-    weapon_dict = []
-    weapon_dict.append(create_weapon())
-    weapon_dict.append(create_weapon())
-    weapon_dump = json.dumps(weapon_dict, cls=ComplexEncoder)
-
-    armor_dict = []
-    armor_dict.append(create_armor())
-    armor_dict.append(create_armor())
-    armor_dump = json.dumps(armor_dict, cls=ComplexEncoder)
-
-    with open("./weapon.json", "w") as file:
-        file.write(weapon_dump)
-        file.close()
-
-    with open("./armor.json", "w") as file:
-        file.write(armor_dump)
-        file.close()
-
-
 def load_game():
-    with open("./game_save.JSON", "r") as file:
+    with open("./res/game_save.JSON", "r") as file:
         data = json.load(file)
         print(f"Welcome back {data['player']['name']}")
 
     loaded_backpack = Backpack(data['player']['backpack']['max_slots'],
                                data['player']['backpack']['filled_slots'],
                                data['player']['backpack']['items_inside'])
-    # create each item - need to create an "equipment" class
+
     loaded_player = Player(data['player']['name'], loaded_backpack,
                            data['player']['gold'], data['player']['current_health'],
-                           data['player']['max_health'], data['player']['current_location'])
-    loaded_globe = Globe(data['globe']['locations'], data['globe']['found_locations'])
+                           data['player']['max_health'], data['player']['current_coordinate'])
 
     loaded_shops = ['']
     for shop in data['shops']:
         shop_keeper = NPC(shop['shop_keeper']['name'], shop['shop_keeper']['npc_type'])
         loaded_shops.append(Shop(shop['shop_type'], shop_keeper, []))
         # I think I can just load empty set for item_for_sale and have them load each game restart
+        # I can probably not load the equipment into the game JSON - but I'll leave it for now
 
-    game = Game(loaded_player, loaded_shops, loaded_globe)
+    game = Game(loaded_player, loaded_shops)
     return game
 
 
-def create_armor():
-    print("What armor is he selling?")
-    armor_type = input()
-    print("What's it's name?")
-    armor_name = input()
-    new_armor = Armor(armor_name, armor_type)
-    return new_armor
+def fight(game):
+    print("I'm in the fight module")
+    shrek = Ogre("Shrek", 100, 100, 0, 0, 10, 10, "Ogres are like onions...")
+    print(shrek)
+    shrek.talk()
+    dragon = Enemy("Smaug", 1000, 1000, 100, 100, 1000, 100, "Stay out of his mountain.")
+    print(dragon)
+    dragon.talk()
 
+    player = game.player
+    while True:
+        print("Combat Round!")
+        print(f"{player.name}: {player.current_health}/{player.max_health} HP")
+        print(f"{shrek.name}: {shrek.current_health}/{shrek.max_health} HP")
 
-def create_weapon():
-    print("What weapon is he selling?")
-    weapon_type = input()
-    print("What's it's name?")
-    weapon_name = input()
-    new_weapon = Weapon(weapon_name, weapon_type)
-    return new_weapon
+        # need to make this random with (min damage, max damage) as the parameters.
+        # Min/Max calc'd off a base damage (min/max) + weapon damage
+        # Base Min/Max goes up with strength
+        # Can add in crits later (max roll gets "crit" - with more agility the magic number goes down)
+
+        player_ran = random.randint(1, 10)
+        enemy_ran = random.randint(1, 10)
+
+        # Need to add "speed" to player and enemy to see who goes first.  Also helps player flee
+
+        print("Attack, Defend, or Flee?")
+        combat_choice = input().lower()
+        if combat_choice == 'attack':
+            print("Attack!!")
+            player_damage_taken = shrek.damage + enemy_ran
+            player_damage_given = player.damage + player_ran
+            print(f'Player does {player_damage_given} damage')
+            print(f'{shrek.name} does {player_damage_taken} damage')
+            if player.current_health > player_damage_taken:
+                player.current_health -= player_damage_taken
+            else:
+                print("You Died")
+                # Need to put in death stuff
+                player.current_health = 0
+                break
+
+            if shrek.current_health > player_damage_given:
+                shrek.current_health -= player_damage_given
+            else:
+                print(f"You have defeated the evil {shrek.name}")
+                # Need to put loot in here
+                # Need to put in experience gain here also
+                break
+        elif combat_choice == 'defend':
+            print("Block!")
+            # Need to add a block formula if player has a shield -
+            # Would a player even want to block? Maybe if enemy is winding up a big hit?
+        elif combat_choice == 'flee':
+            if player_ran >= enemy_ran:
+                print("RUN AWAY!")
+                break
+            else:
+                print(f"{shrek.name} caught you trying to flee!")
+                player_damage_taken = shrek.damage + enemy_ran
+                print(f'{shrek.name} does {player_damage_taken} damage')
+                if player.current_health > player_damage_taken:
+                    player.current_health -= player_damage_taken
+                else:
+                    print("You Died")
+                    # Need to put in death stuff
+                    # Probably just make this a function - so I don't have the same code in 2 places
+                    player.current_health = 0
+                    break
+        # Need to add in a magic option once I add spells - oi vey
+        # maybe a float between .5 and 1.5?
 
 
 def run_game(game):
     while True:
         player = game.player
         backpack = player.backpack
+
+        current_location = game.globe.locations[player.current_coordinate]
+        # Need to make this whole menu contextual based on location
+        if current_location.location_type == "home":
+            print("Welcome Home")
+
         print("What do you want to do? (type 'help' for a list of commands): ")
         current_option = input()
 
         if current_option == 'look':
-            # Need to create a JSON file with stuff the shop keeper sells and load it
             print(f"{player.name} looks around the {player.current_location}")
         elif current_option == 'backpack':
             print(f'{backpack}')
@@ -102,8 +145,8 @@ def run_game(game):
             print("Command options: save, quit, shop, status, backpack, move, look")
         elif current_option == 'money':
             player.gold += 10
-        elif current_option == 'create':
-            create_equip()
+        elif current_option == 'fight':
+            fight(game)
         else:
             print("BREAK!")
             break
